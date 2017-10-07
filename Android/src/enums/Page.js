@@ -4,4 +4,5 @@ export const Page = {
 	NEWS_PAGE: { id: 3, name: '' },
 	NEWS_DETAILS_PAGE: { id: 4, name: '' },
 	HISTORY_PAGE: { id: 5, name: '' },
+	CHAT_PAGE: { id: 6, name: '' }
 }

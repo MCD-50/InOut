@@ -1,5 +1,12 @@
 export const APP_BASE = "http://10.1.26.29:2000";
 
+export const ROOM_NAME = 'AIRBOT.AI';
+
+export const COMING_NAME = 'Me';
+export const GOING_NAME = 'You';
+export const GOING_ID = '123456789';
+export const COMING_ID = '987654321';
+
 //app_margin
 export const MARGIN_16 = 16;
 export const MARGIN_10 = 10;

@@ -50,7 +50,6 @@ io.on(CONNECTION, (socket) => {
 	});
 
 	socket.on(MESSAGE, (message) => {
-		console.log(typeof message != 'object');
 		if (message && typeof message != 'object') {
 			return io.emit(MESSAGE, { text: message });
 			return;
@@ -63,13 +62,11 @@ io.on(CONNECTION, (socket) => {
 		}
 
 		io.emit(MESSAGE, { text: "An error occured try in a bit." });
-
 	});
 });
 
 
 app.post('/scrape', function (req, res) {
-	//All the web scraping magic will happen here
 	getNews(req.body, (items) => {
 		res.json(prepareResponse(items));
 	});

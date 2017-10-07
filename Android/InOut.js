@@ -16,6 +16,7 @@ import LoginPage from './src/ui/views/LoginPage';
 import NewsPage from './src/ui/views/NewsPage';
 import NewsDetailsPage from './src/ui/views/NewsDetailPage';
 import HistoryPage from './src/ui/views/HistoryPage';
+import ChatPage from './src/ui/views/ChatPage';
 
 class InOut extends Component {
 	constructor(params) {
@@ -40,6 +41,8 @@ class InOut extends Component {
 			return <NewsDetailsPage navigator={navigator} route={route} />
 		else if (id == 5)
 			return <HistoryPage navigator={navigator} route={route} />
+		else if (id == 6)
+			return <ChatPage navigator={navigator} route={route} />
 	}
 
 	render() {
