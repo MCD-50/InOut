@@ -55,7 +55,6 @@ class ChatPage extends Component {
 
 	setStateData(messages) {
 		this.setState((previousState) => {
-			console.log(previousState, messages);
 			return {
 				messages: AirChatUI.append(previousState.messages, messages),
 			};
@@ -73,10 +72,11 @@ class ChatPage extends Component {
 				this.setState(options);
 			}
 			this.setStateData(createChatItem(message, options));
-		} else if (typeof message == 'object' && (message.items != undefined || message.items != null)) {
+		} else if (typeof message == 'object' && (message.items != undefined || message.items != null) && message.items.length > 0) {
 			let options = {
-				link: message.url, hasButton: true, buttons: ['View', 'Yup', 'No'],
+				link: message.items[0].url, hasButton: true, buttons: ['View', 'Yup', 'No'],
 			};
+			
 			this.setState(options);
 			this.setStateData(createChatItem(message.items[0], options));
 		} else if (typeof message == 'string') {
@@ -114,6 +114,7 @@ class ChatPage extends Component {
 
 	onButtonClick(message, text) {
 		if(text.includes("Show an")){
+
 			this.socket.sendMessage("-//ARTICLE");
 		}else if(text.includes("View")){
 			message.options.link && Linking.openURL(message.options.link);
