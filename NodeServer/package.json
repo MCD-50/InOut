@@ -1,0 +1,45 @@
+{
+  "name": "airnews-server",
+  "version": "1.0.0",
+  "description": "simple web scrapping engine that returns news in json format",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines":{
+    "node":"^6.11.0",
+    "npm":"^3.10.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcd-50/airnews-server.git"
+  },
+  "keywords": [
+    "fetch",
+    "news",
+    "news json",
+    "news info",
+    "news data"
+  ],
+  "author": "ayush shukla",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcd-50/airnews-server/issues"
+  },
+  "homepage": "https://github.com/mcd-50/airnews-server#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cheerio": "^1.0.0-rc.1",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "engines": {
+    "node": "6.0.0"
+  }
+}
