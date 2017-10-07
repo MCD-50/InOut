@@ -24,7 +24,7 @@ class SplashPage extends Component {
 			.then(res => {
 				if (res) {
 					setTimeout(() => {
-						const page = Page.NEWS_PAGE;
+						const page = Page.CHAT_PAGE;
 						this.props.navigator.replace({
 							id: page.id, name: page.name,
 							data: {
@@ -34,7 +34,7 @@ class SplashPage extends Component {
 					}, 2000);
 				} else {
 					setTimeout(() => {
-						const page = Page.NEWS_PAGE;
+						const page = Page.CHAT_PAGE;
 						this.props.navigator.replace({ id: page.id, name: page.name })
 					}, 2000);
 				}
