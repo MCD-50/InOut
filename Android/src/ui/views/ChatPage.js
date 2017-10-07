@@ -1,6 +1,6 @@
 //import from system
 import React, { Component, PropTypes } from 'react';
-import { View, BackAndroid } from 'react-native';
+import { View, BackAndroid, Linking, } from 'react-native';
 
 //import from app
 import { Toolbar } from 'react-native-material-component';
@@ -26,20 +26,22 @@ const propTypes = {
 	route: PropTypes.object.isRequired,
 };
 
-
 const menuItems = ['About'];
-
 class ChatPage extends Component {
 	constructor(params) {
 		super(params);
 		this.socket = null;
 		this.state = {
-			messages: []
+			messages: [],
+			hasButton: false,
+			link: '',
+			buttons: []
 		};
 
 		this.renderSend = this.renderSend.bind(this);
 		this.onSend = this.onSend.bind(this);
 		this.popUp = this.popUp.bind(this);
+		this.onButtonClick = this.onButtonClick.bind(this);
 		this.setStateData = this.setStateData.bind(this);
 		this.onMessageReceive = this.onMessageReceive.bind(this);
 		this.onSocketConnectCallback = this.onSocketConnectCallback.bind(this);
@@ -53,6 +55,7 @@ class ChatPage extends Component {
 
 	setStateData(messages) {
 		this.setState((previousState) => {
+			console.log(previousState, messages);
 			return {
 				messages: AirChatUI.append(previousState.messages, messages),
 			};
@@ -61,7 +64,34 @@ class ChatPage extends Component {
 
 
 	onMessageReceive(message) {
-		this.setStateData(createChatItem(message));
+		if (typeof message == 'object' && (message.items == undefined || message.items == null)) {
+			let options = {link:'', hasButton: false, buttons: []}
+			if (message.hasButton) {
+				options = {
+					link:'', hasButton: true, buttons: ['Show an article']
+				}
+				this.setState(options);
+			}
+			this.setStateData(createChatItem(message, options));
+		} else if (typeof message == 'object' && (message.items != undefined || message.items != null)) {
+			let options = {
+				link: message.url, hasButton: true, buttons: ['View', 'Yup', 'No'],
+			};
+			this.setState(options);
+			this.setStateData(createChatItem(message.items[0], options));
+		} else if (typeof message == 'string') {
+			let options = {
+				hasButton: false, buttons: [], link:''
+			}
+			this.setState(options);
+			this.setStateData(createChatItem({ text: message }, options));
+		} else {
+			let options = {
+				hasButton: false, buttons: [], link:''
+			}
+			this.setState(options);
+			this.setStateData(createChatItem({ text: 'Something went wrong.' }, options));
+		}
 	}
 
 	onSocketConnectCallback() {
@@ -80,6 +110,18 @@ class ChatPage extends Component {
 	onSend(messages = []) {
 		this.setStateData(messages);
 		this.socket.sendMessage(messages[0].text);
+	}
+
+	onButtonClick(message, text) {
+		if(text.includes("Show an")){
+			this.socket.sendMessage("-//ARTICLE");
+		}else if(text.includes("View")){
+			message.options.link && Linking.openURL(message.options.link);
+		}else if(text.includes("Yup")){
+			this.socket.sendMessage("-//YUP");
+		}else if(text.includes("No")){
+			this.socket.sendMessage("-//NO");
+		}
 	}
 
 	popUp() {
@@ -109,6 +151,12 @@ class ChatPage extends Component {
 						_id: GOING_ID,
 						name: GOING_NAME,
 					}}
+					options={{
+						link: '',
+						hasButton: false,
+						buttons: []
+					}}
+					onButtonClick={this.onButtonClick}
 					keyboardDismissMode='interactive'
 					enableEmptySections={true}
 					alert={false}

@@ -1,5 +1,6 @@
-//import from app
 import { CARROT, PETER_RIVER, WISTERIA, ALIZARIN, TURQUOISE, MIDNIGHT_BLUE } from '../constants/AppColor.js';
+import { COMING_ID, COMING_NAME } from '../constants/AppConstant';
+import { resolveRequest } from './InternetHelper.js';
 
 export const getTextColor = (str) => {
 	if (!str) {
@@ -82,4 +83,22 @@ const parseTime = (hh, mm, ss) => {
 	if (ss.toString().length < 2)
 		ss = '0' + ss;
 	return hh + ':' + mm + ':' + ss;
+}
+
+export const createChatItem = (message, options, link = []) => {
+	//Date.UTC(2016, 7, 30, 17, 20, 0)
+	return [
+		{
+			_id: Math.round(Math.random() * 1000000),
+			text: message.text || message.description || message.title || "Something went wrong.",
+			createdAt: new Date(),
+			user: {
+				_id: COMING_ID,
+				name: COMING_NAME,
+			},
+			alert: false,
+			options: options,
+			attachments: link,
+		},
+	];
 }

@@ -51,17 +51,26 @@ io.on(CONNECTION, (socket) => {
 
 	socket.on(MESSAGE, (message) => {
 		if (message && typeof message != 'object') {
-			return io.emit(MESSAGE, { text: message });
-			return;
-		}
+			if (message.includes('-//ARTICLE')) {
+				getNews(null, (items) => {
+					io.emit(MESSAGE, prepareResponse(items));
+				});
+			} else if (message.includes('-//YUP')) {
 
-		if (message && typeof message == 'object') {
-			return getNews(message, (items) => {
-				io.emit(MESSAGE, JSON.stringify(items));
+			} else if (message.includes("-//No")) {
+
+			} else {
+				io.emit(MESSAGE, { text: message, hasButton: true });
+			}
+		}
+		else if (message && typeof message == 'object') {
+			getNews(message, (items) => {
+				io.emit(MESSAGE, prepareResponse(items));
 			});
+		} else {
+			io.emit(MESSAGE, { text: "An error occured try in a bit." });
 		}
 
-		io.emit(MESSAGE, { text: "An error occured try in a bit." });
 	});
 });
 
